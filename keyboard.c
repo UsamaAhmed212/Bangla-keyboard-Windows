@@ -127,7 +127,7 @@ bool isConsonant(wchar_t unicodeChar) {
  * - @param count: The number of times to send the Backspace key input.
  */
 void SendBackspace(int count) {
-    // printf("SendBackspace() Function run \n");
+    printf("SendBackspace() Function run \n");
 
     INPUT input[4]; // Maximum of 2 backspaces, hence 4 inputs (2 down + 2 up)
 
@@ -360,6 +360,7 @@ void rho_keyPressCountProcess(int virtualKeyCode) {
         rho_keyPressCount = 0;  // Reset the rho(ঢ়) counter for any other key press
     }
 }
+
 
 
 
@@ -638,6 +639,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     return 1; // Block original 'O' or 'o'
 
 
+
                 /**
                 ** Consonant (ব্যঞ্জনবর্ণ)	Key Mapping
                 **/
@@ -900,7 +902,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                 case 0xBA: // (Colon)':'
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
 
-                    if (isShiftPressed()) {
+                    if (isShiftPressed()) { // Check if the Shift key is pressed
                         SendUnicodeChar(0xBA, 0x983);  // 'ঃ'
                         return 1; // Block original (Colon)':'
                     }
@@ -910,11 +912,41 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                 case 0x36: // (^)'^'
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
 
-                    if (isShiftPressed()) {
+                    if (isShiftPressed()) { // Check if the Shift key is pressed
                         SendUnicodeChar(0xDC, 0x981);  // 'ঁ'
                         return 1; // Block original (^)'^'
                     }
                     return 0; // Allow original key input if Ctrl key is pressed
+
+
+
+                /**
+                **  "হসন্ত"
+                **/
+                case 0x58: // 'X' or'x'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+
+                    if (!isShiftPressed() || unicodeCharArraySize < 1) { // Check if the Shift key is not pressed
+                        SendUnicodeChar(0x58, 0x9CD);  // '্‌'(হসন্ত)
+                    } else {
+                        // Check if the Shift key is pressed thats means the character is (ref/reph)"রেফ"
+                        
+                        // Track key press Unicode Character (ref/reph)"রেফ"
+                        wchar_t ref_PressBeforeKeyUnicodeChar = lastKeyPressUnicodeCharArray[unicodeCharArraySize - 1];
+                        
+                        if (isConsonant(lastKeyPressUnicodeChar)) {
+                            // If the previous character is a consonant, replace it with (ref/reph)"রেফ"
+                            SendBackspace(1);  // Send One backspaces
+                            SendUnicodeChar(0x52, 0x9B0);  // 'র'
+                            SendUnicodeChar(0x58, 0x9CD);  // '্‌'(হসন্ত)
+                            SendUnicodeChar(0x58, ref_PressBeforeKeyUnicodeChar);  // Last key Unicode character before pressing (ref/reph)"রেফ"
+                        } else {
+                            SendUnicodeChar(0x58, 0x9CD);  // '্‌'(হসন্ত)
+                        }
+                    }
+                    return 1; // Block original 'X' or'x'
+                    
+                // Handle more vowel mappings here if needed
 
             }
         }
