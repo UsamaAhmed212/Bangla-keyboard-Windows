@@ -909,19 +909,21 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     return 0; // Allow original key input if Ctrl key is pressed
 
 
-                case 0x36: // (^)'^'
+                case 0x36: // // '6' Or '^'
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
 
                     if (isShiftPressed()) { // Check if the Shift key is pressed
                         SendUnicodeChar(0xDC, 0x981);  // 'ঁ'
-                        return 1; // Block original (^)'^'
+                    } else {
+                        SendUnicodeChar(0x36, 0x09EC);  // '৬' (Six)
                     }
-                    return 0; // Allow original key input if Ctrl key is pressed
+                    return 1; // Block original '6'
 
 
 
                 /**
-                **  "হসন্ত"
+                 * Special Character
+                    - "হসন্ত"
                 **/
                 case 0x58: // 'X' or'x'
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
@@ -946,7 +948,72 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     }
                     return 1; // Block original 'X' or'x'
                     
-                // Handle more vowel mappings here if needed
+
+
+                /**
+                 * Number Keys and Numeric Keypad Bengali Digits (সংখ্যা)
+                    * - Key Mapping for Bengali Digits (০-৯)
+                 */
+
+                case 0x30: // '0'
+                case VK_NUMPAD0: // Numeric keypad '0'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    SendUnicodeChar(0x30, 0x09E6);  // '০' (Zero)
+                    return 1;
+
+                case 0x31: // '1'
+                case VK_NUMPAD1: // Numeric keypad '1'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    SendUnicodeChar(0x31, 0x09E7);  // '১' (One)
+                    return 1;
+
+                case 0x32: // '2'
+                case VK_NUMPAD2: // Numeric keypad '2'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    SendUnicodeChar(0x32, 0x09E8);  // '২' (Two)
+                    return 1;
+
+                case 0x33: // '3'
+                case VK_NUMPAD3: // Numeric keypad '3'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    SendUnicodeChar(0x33, 0x09E9);  // '৩' (Three)
+                    return 1;
+
+                case 0x34: // '4'
+                case VK_NUMPAD4: // Numeric keypad '4'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    SendUnicodeChar(0x34, 0x09EA);  // '৪' (Four)
+                    return 1;
+
+                case 0x35: // '5'
+                case VK_NUMPAD5: // Numeric keypad '5'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    SendUnicodeChar(0x35, 0x09EB);  // '৫' (Five)
+                    return 1;
+
+                // case 0x36: // '6'
+                case VK_NUMPAD6: // Numeric keypad '6'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    SendUnicodeChar(0x36, 0x09EC);  // '৬' (Six)
+                    return 1;
+
+                case 0x37: // '7'
+                case VK_NUMPAD7: // Numeric keypad '7'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    SendUnicodeChar(0x37, 0x09ED);  // '৭' (Seven)
+                    return 1;
+
+                case 0x38: // '8'
+                case VK_NUMPAD8: // Numeric keypad '8'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    SendUnicodeChar(0x38, 0x09EE);  // '৮' (Eight)
+                    return 1;
+
+                case 0x39: // '9'
+                case VK_NUMPAD9: // Numeric keypad '9'
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    SendUnicodeChar(0x39, 0x09EF);  // '৯' (Nine)
+                    return 1;
 
             }
         }
