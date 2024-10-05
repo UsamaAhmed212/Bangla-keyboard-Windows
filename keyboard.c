@@ -902,7 +902,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                 case 0xBA: // (Colon)':'
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
 
-                    if (isShiftPressed()) { // Check if the Shift key is pressed
+                    if (isShiftPressed()) {
                         SendUnicodeChar(0xBA, 0x983);  // 'ঃ'
                         return 1; // Block original (Colon)':'
                     }
@@ -912,7 +912,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                 case 0x36: // // '6' Or '^'
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
 
-                    if (isShiftPressed()) { // Check if the Shift key is pressed
+                    if (isShiftPressed()) {
                         SendUnicodeChar(0xDC, 0x981);  // 'ঁ'
                     } else {
                         SendUnicodeChar(0x36, 0x09EC);  // '৬' (Six)
@@ -922,7 +922,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 /**
-                 * Special Character
+                 * Bangla Special Character Letter
                     - "হসন্ত"
                 */
                 case 0x58: // 'X' or'x'
@@ -950,13 +950,28 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     
 
                 /**
+                 * Bangla Special Character Letter
+                    - "।" - দাড়ি
+                */
+                case 0xBE: // '.' (Period key)
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    
+                    if (!isShiftPressed()) {
+                        SendUnicodeChar(0xBE, 0x0964);  // '।' (Bengali Full Stop)
+                        return 1;  // Block original '.' key input
+                    }
+                    return 0; // Allow original key input
+
+               
+
+                /**
                  * Additional Letters for Currency
                     - "৳" - টাকা
                 */
                 case 0x34: // '4'
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
 
-                    if (isShiftPressed()) { // Check if the Shift key is pressed
+                    if (isShiftPressed()) {
                         SendUnicodeChar(0x34, 0x09f3);  // '৳'(টাকা)
                     } else {
                         SendUnicodeChar(0x34, 0x09EA);  // '৪' (Four)
@@ -964,11 +979,11 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     return 1;  // Block original key input
 
 
+
                 /**
                  * Number Keys and Numeric Keypad Bengali Digits (সংখ্যা)
                     * - Key Mapping for Bengali Digits (০-৯)
                  */
-
                 case 0x30: // '0'
                 case VK_NUMPAD0: // Numeric keypad '0'
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
