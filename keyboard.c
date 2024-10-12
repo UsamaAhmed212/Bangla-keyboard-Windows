@@ -421,8 +421,11 @@ void SendUnicodeChar(int virtualKeyCode, wchar_t unicodeChar) {
     // for (int i = 0; i < unicodeCharArraySize; i++) {
     //     printf("0x%X \n", lastKeyPressUnicodeCharArray[i]);
     // }
-    // printf("NExT Print \n");
+    // printf("NexT Print \n");
     // printf("0x%X \n", lastKeyPressUnicodeChar);
+    // printf("0x%X \n", lastKeyPressUnicodeCharArray[unicodeCharArraySize - 1]);
+    // printf("Key pressed: 0x%X \n", unicodeChar);
+    // printf("Key Code: %d\n", unicodeChar);
     
     rie_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the 'ঋ' character based on the virtual key code
 
@@ -437,20 +440,6 @@ void SendUnicodeChar(int virtualKeyCode, wchar_t unicodeChar) {
     rho_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the 'ঢ়' character based on the virtual key code
 
 
-    // printf("Size %d \n", unicodeCharArraySize);
-
-    // printf("0x%X \n", lastKeyPressUnicodeCharArray[unicodeCharArraySize - 1]);
-
-    // printf("Key pressed: 0x%X \n", unicodeChar);
-    // printf("Key Code: %d\n", unicodeChar);
-
-    // if (unicodeChar == 0x8) {
-    //     printf("Yes\n");
-    // } else {
-    //     printf("NO\n");
-    // }
-
-    
     // Check if the key pressed is not Space (0x20), Tab (0x9), or Backspace (0x8)
     if (virtualKeyCode != 0x20 && virtualKeyCode != 0x9 && virtualKeyCode != 0x8) {
         INPUT input[2] = {0}; // Array for sending key input
@@ -962,7 +951,20 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     }
                     return 0; // Allow original key input
 
-               
+
+                /**
+                 * Dot or Period
+                    - "." - ডট
+                */
+                case VK_DECIMAL: // '.' Numeric Keypad
+                    if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
+                    
+                    if (!isShiftPressed()) {
+                        SendUnicodeChar(VK_DECIMAL, 0x002E);  // '.' (Bangla Dot)
+                        return 1;  // Block original '.' (Numeric Keypad) key input
+                    }
+                    return 0; // Allow original key input
+
 
                 /**
                  * Additional Letters for Currency
