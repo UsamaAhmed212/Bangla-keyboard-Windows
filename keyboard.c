@@ -840,7 +840,20 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                 case 0x5A: // 'Z' or 'z'
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
                     
-                    SendUnicodeChar(0x5A, 0x9AF);  // 'য'
+                    if (!isUppercase()) {
+                        // Handle Lowercase 'z'
+                        SendUnicodeChar(0x5A, 0x9AF);  // 'য'
+                    } else {
+                        // Handle Uppercase 'Z'
+                        /**
+                         * Bangla Special Character Letter
+                            - "(য ফলা)"
+                        */
+                        if (unicodeCharArraySize >= 1 && isConsonant(lastKeyPressUnicodeCharArray[unicodeCharArraySize - 1])) {
+                            SendUnicodeChar(0x52, 0x9CD);  // '্‌'(হসন্ত)
+                        }
+                        SendUnicodeChar(0x5A, 0x9AF);  // 'য'
+                    }
                     return 1; // Block original 'Z' or 'z'
 
 
