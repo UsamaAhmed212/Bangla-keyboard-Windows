@@ -300,7 +300,7 @@ void nio_keyPressCountProcess(int virtualKeyCode) {
 
 
 /**
- * Function to track the sequence of key presses for forming the 'ঠ' an 'থ' character.
+ * Function to track the sequence of key presses for forming the 'ঠ' and 'থ' character.
  * Parameters:
  * - @param virtualKeyCode: The virtual key code representing the key pressed.
  */
@@ -323,7 +323,7 @@ void to_and_tho_keyPressCountProcess(int virtualKeyCode) {
 
 
 /**
- * Function to track the sequence of key presses for forming the 'ঢ' an 'ধ' character.
+ * Function to track the sequence of key presses for forming the 'ঢ' and 'ধ' character.
  * Parameters:
  * - @param virtualKeyCode: The virtual key code representing the key pressed.
  */
@@ -335,8 +335,10 @@ void dho_and_do_keyPressCountProcess(int virtualKeyCode) {
     if (virtualKeyCode == 0x44) {  // 'D' or 'd' key
         if (isUppercase()) {  // Check if the key pressed is 'D' or 'd'
             dho_keyPressCount = 1; // Start counting for 'ঢ'
+            do_keyPressCount = 0; // Reset the do(ধ) counter
         } else {
             do_keyPressCount = 1; // Start counting for 'ধ'
+            dho_keyPressCount = 0; // Reset the dho(ঢ) counter
         }
     } else {
         dho_keyPressCount = 0; // Reset the dho(ঢ) counter for any other key press
@@ -362,9 +364,21 @@ void rho_keyPressCountProcess(int virtualKeyCode) {
 }
 
 
+/**
+ * Function to track the sequence of key presses for forming the ':'(Colon) character.
+ * Parameters:
+ * - @param virtualKeyCode: The virtual key code representing the key pressed.
+ */
 
+int colon_keyPressCount = 0; // track the sequence of key presses ':'(Colon)
 
-
+void colon_keyPressCountProcess(int virtualKeyCode) {
+    if (virtualKeyCode == 0xBA) {  // ':'(Colon) key
+        colon_keyPressCount = 1; // Start counting for '':'(Colon)
+    } else {
+        colon_keyPressCount = 0; // Reset the ':'(Colon) counter for any other key press
+    }
+}
 
 
 
@@ -438,6 +452,8 @@ void SendUnicodeChar(int virtualKeyCode, wchar_t unicodeChar) {
     dho_and_do_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the 'ঢ' and 'ধ' character based on the virtual key code
     
     rho_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the 'ঢ়' character based on the virtual key code
+
+    colon_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the ':'(Colon) character based on the virtual key code
 
 
     // Check if the key pressed is not Space (0x20), Tab (0x9), or Backspace (0x8)
@@ -892,9 +908,16 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
 
                     if (isShiftPressed()) {
-                        SendUnicodeChar(0xBA, 0x983);  // 'ঃ'
+                        if (colon_keyPressCount == 1) {
+                            SendBackspace(1);  // Send One backspaces
+                            SendUnicodeChar(0xBA, 0x3A);  //  (Colon) - ":" - কোলন
+                            colon_keyPressCount = 0; // Reset the ':'(Colon) counter
+                        } else {
+                            SendUnicodeChar(0xBA, 0x983);  // 'ঃ'
+                        }
                         return 1; // Block original (Colon)':'
                     }
+                    colon_keyPressCount = 0; // Reset the ':'(Colon) counter
                     return 0; // Allow original key input if Ctrl key is pressed
 
 
