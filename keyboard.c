@@ -348,18 +348,25 @@ void dho_and_do_keyPressCountProcess(int virtualKeyCode) {
 
 
 /**
- * Function to track the sequence of key presses for forming the 'ঢ়' character.
+ * Function to track the sequence of key presses for forming the 'ঢ়' and '্র'(র ফলা) character.
  * Parameters:
  * - @param virtualKeyCode: The virtual key code representing the key pressed.
  */
 
 int rho_keyPressCount = 0; // track the sequence of key presses 'ঢ়'
-
-void rho_keyPressCountProcess(int virtualKeyCode) {
-    if (virtualKeyCode == 0x52) {  // 'R' or'r' key
-        rho_keyPressCount = 1; // Start counting for 'ঢ়'
+int roPhala_keyPressCount = 0; // track the sequence of key presses '্র'(র ফলা)
+void rho_and_roPhala_keyPressCountProcess(int virtualKeyCode) {
+    if (virtualKeyCode == 0x52) {  // 'R' or 'r' key
+        if (isUppercase()) {  // Check if the key pressed is 'R' or 'r'
+            rho_keyPressCount = 1; // Start counting for 'ঢ়'
+            roPhala_keyPressCount = 0; // Reset the'্র'(র ফলা) counter
+        } else {
+            roPhala_keyPressCount = 1; // Start counting for '্র'(র ফলা)
+            rho_keyPressCount = 0; // Reset the dho(ঢ়) counter
+        }
     } else {
-        rho_keyPressCount = 0;  // Reset the rho(ঢ়) counter for any other key press
+        rho_keyPressCount = 0; // Reset the rho(ঢ়) counter for any other key press
+        roPhala_keyPressCount = 0;  // Reset the '্র'(র ফলা) counter for any other key press
     }
 }
 
@@ -451,7 +458,7 @@ void SendUnicodeChar(int virtualKeyCode, wchar_t unicodeChar) {
     
     dho_and_do_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the 'ঢ' and 'ধ' character based on the virtual key code
     
-    rho_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the 'ঢ়' character based on the virtual key code
+    rho_and_roPhala_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the 'ঢ়' and '্র'(র ফলা) character based on the virtual key code
 
     colon_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the ':'(Colon) character based on the virtual key code
 
@@ -840,19 +847,32 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                 case 0x52: // 'R' or'r'
                     if (isCtrlPressed) return 0; // Allow original key input if Ctrl key is pressed
 
-                    if (rho_keyPressCount == 1) {
-                        SendBackspace(1);  // Send One backspaces
-                        SendUnicodeChar(0x52, 0x9DD);  // 'ঢ়'
-                        rho_keyPressCount = 0; // Reset the dho(ঢ়) counter
-                        return 1; // Block original 'R' or'r'
-                    }
-
                     if (!isUppercase()) {
                         // Handle Lowercase 'r'
-                        SendUnicodeChar(0x52, 0x9B0);  // 'র'
+                        if (roPhala_keyPressCount == 1) {
+                            /**
+                             * Bangla Special Character Letter
+                                - "(র ফলা)"
+                            */
+                            if (unicodeCharArraySize >= 2 && isConsonant(lastKeyPressUnicodeCharArray[unicodeCharArraySize - 2])) {
+                                SendBackspace(1);  // Send One backspaces
+                            }
+                            SendUnicodeChar(0x52, 0x9CD);  // '্‌'(হসন্ত)
+                            SendUnicodeChar(0x52, 0x9B0);  // 'র'
+                            roPhala_keyPressCount = 0; // Reset the'্র'(র ফলা) counter
+                        } else {
+                            SendUnicodeChar(0x52, 0x9B0);  // 'র'
+                        }
                     } else {
                         // Handle Uppercase 'R'
-                        SendUnicodeChar(0x52, 0x9DC);  // 'ড়'
+                        if (rho_keyPressCount == 1) {
+                            SendBackspace(1);  // Send One backspaces
+                            SendUnicodeChar(0x52, 0x9DD);  // 'ঢ়'
+                            rho_keyPressCount = 0; // Reset the dho(ঢ়) counter
+                            return 1; // Block original 'R' or'r'
+                        } else {
+                            SendUnicodeChar(0x52, 0x9DC);  // 'ড়'
+                        }
                     }
                     return 1; // Block original 'R' or 'r'
 
