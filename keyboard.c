@@ -372,6 +372,27 @@ void rho_and_roPhala_keyPressCountProcess(int virtualKeyCode) {
 
 
 /**
+ * Function to track the sequence of key presses for forming the 'ঢ়' and (ব ফলা) character.
+ * Parameters:
+ * - @param virtualKeyCode: The virtual key code representing the key pressed.
+ */
+
+int boPhala_keyPressCount = 0; // Track the sequence of key presses (ব ফলা)
+
+void boPhala_keyPressCountProcess(int virtualKeyCode) {
+    if (virtualKeyCode == 0x42 || virtualKeyCode == 0x56) {  // 'B'/'b' or 'V'/'v'
+        if ((virtualKeyCode == 0x42 && !isUppercase()) || (virtualKeyCode == 0x56 && isUppercase())) {
+            boPhala_keyPressCount = 1;  // Start counting for (ব ফলা)
+        } else {
+            boPhala_keyPressCount = 0;  // Reset the counter for (ব ফলা)
+        }
+    } else {
+        boPhala_keyPressCount = 0;  // Reset the counter for any other key press
+    }
+}
+
+
+/**
  * Function to track the sequence of key presses for forming the ':'(Colon) character.
  * Parameters:
  * - @param virtualKeyCode: The virtual key code representing the key pressed.
@@ -459,6 +480,8 @@ void SendUnicodeChar(int virtualKeyCode, wchar_t unicodeChar) {
     dho_and_do_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the 'ঢ' and 'ধ' character based on the virtual key code
     
     rho_and_roPhala_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the 'ঢ়' and '্র'(র ফলা) character based on the virtual key code
+    
+    boPhala_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the (ব ফলা) character based on the virtual key code
 
     colon_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the ':'(Colon) character based on the virtual key code
 
@@ -803,7 +826,19 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'b'
-                        SendUnicodeChar(0x42, 0x9AC);  // 'ব'
+                        if (boPhala_keyPressCount == 1) {
+                            /**
+                             * Bangla Special Character Letter
+                                - "(ব ফলা)"
+                            */
+                            if (unicodeCharArraySize >= 2 && isConsonant(lastKeyPressUnicodeCharArray[unicodeCharArraySize - 2])) {
+                                SendBackspace(1);  // Send One backspaces
+                            }
+                            SendUnicodeChar(0x42, 0x9CD);  // '্‌'(হসন্ত)
+                            SendUnicodeChar(0x42, 0x9AC);  // 'ব'
+                        } else {
+                            SendUnicodeChar(0x42, 0x9AC);  // 'ব'
+                        }
                     } else {
                         // Handle Uppercase 'B'
                         SendUnicodeChar(0x42, 0x9AD);  // 'ভ'
@@ -819,7 +854,19 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                         SendUnicodeChar(0x56, 0x9AD);  // 'ভ'
                     } else {
                         // Handle Uppercase 'V'
-                        SendUnicodeChar(0x56, 0x9AC);  // 'ব'
+                        if (boPhala_keyPressCount == 1) {
+                            /**
+                             * Bangla Special Character Letter
+                                - "(ব ফলা)"
+                            */
+                            if (unicodeCharArraySize >= 2 && isConsonant(lastKeyPressUnicodeCharArray[unicodeCharArraySize - 2])) {
+                                SendBackspace(1);  // Send One backspaces
+                            }
+                            SendUnicodeChar(0x56, 0x9CD);  // '্‌'(হসন্ত)
+                            SendUnicodeChar(0x56, 0x9AC);  // 'ব'
+                        } else {
+                            SendUnicodeChar(0x56, 0x9AC);  // 'ব'
+                        }
                     }
                     return 1; // Block original 'V' or 'v'
 
