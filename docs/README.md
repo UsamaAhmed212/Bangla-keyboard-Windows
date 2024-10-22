@@ -1,4 +1,4 @@
-# **(Bangla Keyboard Windows) Compilation with Custom Icon**
+# **Bangla Keyboard Windows**
 
 ## **Overview**
 
@@ -20,15 +20,15 @@ Ensure you have the following files in your project directory:
 Run the following command:
 
 ```bash
-windres resources.rc -o resource.o
+windres resources.rc -o resources.o
 ```
 ## Expected Result:
 
-- **`resource.o`**: that contains machine code.
+- **`resources.o`**: that contains machine code.
 
 ### 2. Generated Executable File (.exe)
 ```bash
-gcc keyboard.c resource.o -o keyboard.exe
+gcc keyboard.c resources.o -o keyboard.exe
 ```
 ## Expected Result:
 
