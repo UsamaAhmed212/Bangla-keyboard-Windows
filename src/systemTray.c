@@ -20,7 +20,7 @@ enum MenuItems {
 // Function declarations
 void ToggleIcon();
 HMENU CreateContextMenu();
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK SystemTrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 // Function to toggle the tray icon between two states
 void ToggleIcon() {
@@ -70,7 +70,7 @@ HMENU CreateContextMenu() {
 }
 
 // Window Procedure to handle messages for the application window
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK SystemTrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
         case WM_APP:
             // Handle right-click to show the context menu
@@ -112,9 +112,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 }
 
 // Function to initialize the system tray
-void systemTrayInit() {
-    HINSTANCE hInstance = GetModuleHandle(NULL); // Get the instance handle of the current application
-
+void systemTrayInit(HINSTANCE hInstance) {
     // Load icons for the tray application
     currentIcon = (HICON)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_keyboard));
     banglaIcon = (HICON)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_bangla_keyboard));
@@ -124,7 +122,7 @@ void systemTrayInit() {
 
     // Register window class
     WNDCLASS wc = {0}; // Initialize WNDCLASS structure
-    wc.lpfnWndProc = WindowProc; // Set window procedure
+    wc.lpfnWndProc = SystemTrayWindowProc; // Set window procedure
     wc.hInstance = hInstance; // Set application instance
     wc.lpszClassName = "TrayApp"; // Set class name
     RegisterClass(&wc); // Register the window class
