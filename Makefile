@@ -1,31 +1,44 @@
+# Compiler and resource compiler
 CC = gcc
-RC = windres
+WINDRES = windres
 
-# Object files
-OBJS = obj/resources.o
+# Output executable name
+TARGET = "Bangla Keyboard.exe"
 
-# Output executable
-EXEC = "Bangla Keyboard.exe"
+# Directories
+SRC_DIR = src
+OBJ_DIR = obj
+RC_DIR = rc
+RES_DIR = resources
+
+# Source files
+SRC_FILES = $(SRC_DIR)/bangla_keyboard.c $(SRC_DIR)/splashScreen.c
+OBJ_FILES = $(OBJ_DIR)/resources.o
+
+# Resource script
+RESOURCES = $(RC_DIR)/resources.rc
+
+# Compiler flags
+CFLAGS = -mwindows
 
 # Default target
-all: $(EXEC)
+all: build
 
-# Link object files and create executable
-$(EXEC): $(OBJS)
-	$(CC) $(OBJS) -o $(EXEC)
+# Build the executable
+build: clean $(TARGET)
 
-# Custom target to compile resources and build the executable
-build: obj/resources.o
-	$(RC) rc/resources.rc -o obj/resources.o && $(CC) src/bangla_keyboard.c obj/resources.o -o $(EXEC)
+$(TARGET): $(SRC_FILES) $(OBJ_FILES)
+	$(CC) $(SRC_FILES) $(OBJ_FILES) -o $(TARGET) $(CFLAGS)
 
-# Compile resource script to object file
-obj/resources.o: rc/resources.rc include/resource.h
-	$(RC) rc/resources.rc -o obj/resources.o
-
-# Clean up object files and executable
-clean:
-	del /Q src\*.o obj\*.o $(EXEC)
-
-# Run the build target
+# Run the executable
 run: build
-	./$(EXEC)
+	./$(TARGET)
+
+# Compile resource file
+$(OBJ_DIR)/resources.o: $(RESOURCES)
+	$(WINDRES) $(RESOURCES) -o $(OBJ_DIR)/resources.o
+
+# Clean the build
+clean:
+	rm -f $(OBJ_FILES) $(TARGET)
+

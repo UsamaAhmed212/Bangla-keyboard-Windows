@@ -1,6 +1,7 @@
+// systemTray.c
 #include <windows.h>
 #include <shellapi.h>
-#include "resource.h"  // Include custom resources
+#include "../include/resource.h"  // Include custom resources
 #include <stdio.h>
 
 // Global variables for tray icon and images
@@ -9,7 +10,6 @@ HICON currentIcon;     // Current icon displayed in the tray
 HICON banglaIcon;      // Bangla keyboard icon
 HBITMAP exitBitmap;    // Bitmap for the exit menu item
 
-
 // Enum for menu item identifiers
 enum MenuItems {
     ITEM_OPEN_1, // Automatically assigned value 0
@@ -17,6 +17,10 @@ enum MenuItems {
     ITEM_EXIT    // Automatically assigned value 2
 };
 
+// Function declarations
+void ToggleIcon();
+HMENU CreateContextMenu();
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 // Function to toggle the tray icon between two states
 void ToggleIcon() {
@@ -32,7 +36,6 @@ void ToggleIcon() {
     nid.hIcon = currentIcon; // Update the icon in the NOTIFYICONDATA structure
     Shell_NotifyIcon(NIM_MODIFY, &nid); // Modify the tray icon
 }
-
 
 // Function to create the context menu for the tray icon
 HMENU CreateContextMenu() {
@@ -65,7 +68,6 @@ HMENU CreateContextMenu() {
 
     return hMenu; // Return the created menu
 }
-
 
 // Window Procedure to handle messages for the application window
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
@@ -109,15 +111,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     return 0; // Return 0 to indicate message handled
 }
 
-
-
-int main() {
+// Function to initialize the system tray
+void systemTrayInit() {
     HINSTANCE hInstance = GetModuleHandle(NULL); // Get the instance handle of the current application
 
     // Load icons for the tray application
     currentIcon = (HICON)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_keyboard));
     banglaIcon = (HICON)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_bangla_keyboard));
-    
+
     // Load bitmap for exit menu item
     exitBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EXIT_BUTTON), IMAGE_BITMAP, 15, 15, LR_LOADTRANSPARENT);
 
@@ -156,6 +157,4 @@ int main() {
     DestroyIcon(currentIcon); // Destroy current icon
     DestroyIcon(banglaIcon); // Destroy Bangla icon
     DeleteObject(exitBitmap); // Delete exit bitmap
-
-    return 0; // Return 0 to indicate successful execution
 }

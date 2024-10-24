@@ -8,19 +8,19 @@ This guide explains how to compile a C program into an executable (`.exe`) with 
 
 Ensure you have the following files in your project directory:
 
-- **`keyboard.c`**: Your main C source file.
-- **`keyboard.ico`**: Your custom icon file.
+- **`bangla_keyboard.c`**: Your main C source file.
+- **`bangla_keyboard.ico`**: Your custom icon file.
 - **`resource.h`**: Resource header file.
 - **`resources.rc`**: Resource script file.
 
-## **Compilation Steps**
+## **Compilation Steps 01**
 
 ### 1. Compile the Resource File
 
 Run the following command:
 
 ```bash
-windres resources.rc -o resources.o
+windres rc/resources.rc -o obj/resources.o
 ```
 ## Expected Result:
 
@@ -28,18 +28,27 @@ windres resources.rc -o resources.o
 
 ### 2. Generated Executable File (.exe)
 ```bash
-gcc keyboard.c resources.o -o keyboard.exe
+gcc src/bangla_keyboard.c src/splashScreen.c obj/resources.o -o "Bangla Keyboard.exe" -mwindows
 ```
 ## Expected Result:
 
-- **`keyboard.exe`**: Executable File (.exe)
+- **`Bangla Keyboard.exe`**: Executable File (.exe)
 
 ### 3. Run Executable File (.exe)
 
 ```bash
-keyboard.exe
+"Bangla Keyboard.exe"
 ```
 OR
 ```bash
-./keyboard.exe
+./"Bangla Keyboard.exe"
+```
+
+## **Compilation Steps 02**
+
+### 1. Compile the Resource File
+Run the following command : => (if a Makefile is available)
+
+```bash
+make run
 ```

@@ -1,3 +1,10 @@
 #include "../include/resource.h"
 
 IDI_MYICON ICON "../resources/icons/bangla_keyboard.ico"
+
+IDB_SPLASH_SCREEN BITMAP "../resources/bitmaps/avro_keyboard_splash_screen.bmp"
+
+IDI_keyboard ICON "../resources/icons/keyboard.ico"
+IDI_bangla_keyboard ICON "../resources/icons/bangla_keyboard.ico"
+
+IDB_EXIT_BUTTON BITMAP "../resources/bitmaps/exit.bmp"
