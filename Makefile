@@ -12,7 +12,7 @@ RC_DIR = rc
 RES_DIR = resources
 
 # Source files
-SRC_FILES = $(SRC_DIR)/bangla_keyboard.c $(SRC_DIR)/splashScreen.c $(SRC_DIR)/systemTray.c
+SRC_FILES = $(SRC_DIR)/bangla_keyboard.c $(SRC_DIR)/splashScreen.c $(SRC_DIR)/keyboard.c $(SRC_DIR)/systemTray.c
 OBJ_FILES = $(OBJ_DIR)/resources.o
 
 # Resource script

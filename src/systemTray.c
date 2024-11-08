@@ -139,7 +139,7 @@ void systemTrayInit(HINSTANCE hInstance) {
     nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP; // Set icon, message, and tooltip
     nid.hIcon = currentIcon; // Set the current icon
     nid.uCallbackMessage = WM_APP; // Set callback message
-    strcpy(nid.szTip, "Keyboard Application"); // Set tooltip text
+    strcpy(nid.szTip, "Bangla Keyboard"); // Set tooltip text
 
     Shell_NotifyIcon(NIM_ADD, &nid); // Add the icon to the system tray
     ShowWindow(hwnd, SW_HIDE); // Hide the main window

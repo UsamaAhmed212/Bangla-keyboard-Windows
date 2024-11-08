@@ -1,3 +1,4 @@
+// keyboard.c
 #include <stdio.h>
 #include <windows.h>
 #include <stdbool.h> // Include for bool type
@@ -127,7 +128,7 @@ bool isConsonant(wchar_t unicodeChar) {
  * - @param count: The number of times to send the Backspace key input.
  */
 void SendBackspace(int count) {
-    printf("SendBackspace() Function run \n");
+    // printf("SendBackspace() Function run \n");
 
     INPUT input[4]; // Maximum of 2 backspaces, hence 4 inputs (2 down + 2 up)
 
@@ -450,18 +451,7 @@ void SendUnicodeChar(int virtualKeyCode, wchar_t unicodeChar) {
             }
         }
     }
-
-
-    // printf("Loop Start \n");
-    // printf("Size %d \n", unicodeCharArraySize);
-    // for (int i = 0; i < unicodeCharArraySize; i++) {
-    //     printf("0x%X \n", lastKeyPressUnicodeCharArray[i]);
-    // }
-    // printf("NexT Print \n");
-    // printf("0x%X \n", lastKeyPressUnicodeChar);
-    // printf("0x%X \n", lastKeyPressUnicodeCharArray[unicodeCharArraySize - 1]);
-    // printf("Key pressed: 0x%X \n", unicodeChar);
-    // printf("Key Code: %d\n", unicodeChar);
+    
     
     rie_keyPressCountProcess(virtualKeyCode); // Process the key press count for forming the 'ঋ' character based on the virtual key code
 
@@ -1151,7 +1141,9 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
     return CallNextHookEx(NULL, nCode, wParam, lParam);
 }
 
-int main() {
+
+// Function to write Bangla
+int initializeBangleKeyboard(HINSTANCE hInstance) {
     HHOOK hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHook, NULL, 0);
     
     if (hKeyboardHook == NULL) {
