@@ -3,7 +3,6 @@
 #include "../include/systemTray.h"      // Include the system tray header
 #include "../include/splashScreen.h"    // Include splash screen header
 #include "../include/keyboard.h"        // Include keyboard header
-#include <stdio.h> // Delete This (printf)
 
 // Thread function to run the splash screen
 unsigned __stdcall splashScreenThread(void* params) {

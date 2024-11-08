@@ -97,7 +97,8 @@ LRESULT CALLBACK SystemTrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
                     break;
                 case ITEM_EXIT:
                     Shell_NotifyIcon(NIM_DELETE, &nid); // Remove the icon from the tray
-                    PostQuitMessage(0); // Quit the application
+                    // PostQuitMessage(0); // Quit the application
+                    ExitProcess(0);  // Immediately terminates the application
                     break;
             }
             break;
