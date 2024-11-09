@@ -1,18 +1,23 @@
 // systemTray.c
 #include <windows.h>
 #include <shellapi.h>
+#include <stdbool.h>
 #include "../include/resource.h"  // Include custom resources
-#include <stdio.h>
+#include "../include/trayActions/programAutoStartup.h"  // Include the header file for the menu items actions
 
 // Global variables for tray icon and images
-NOTIFYICONDATA nid;    // Structure for the notification icon
-HICON currentIcon;     // Current icon displayed in the tray
-HICON banglaIcon;      // Bangla keyboard icon
-HBITMAP exitBitmap;    // Bitmap for the exit menu item
+NOTIFYICONDATA nid;       // Structure for the notification icon
+HICON currentIcon;        // Current icon displayed in the tray
+HICON banglaIcon;         // Bangla keyboard icon
+HBITMAP exitBitmap;       // Bitmap for the exit menu item
+HBITMAP checkedBitmap;    // Bitmap for checked state
+HBITMAP uncheckedBitmap;  // Bitmap for unchecked state
+
+bool isChecked = false; // Track checkbox state (checked or unchecked)
 
 // Enum for menu item identifiers
 enum MenuItems {
-    ITEM_OPEN_1, // Automatically assigned value 0
+    ITEM_RUN_AT_STARTUP, // Automatically assigned value 0
     ITEM_OPEN_2, // Automatically assigned value 1
     ITEM_EXIT    // Automatically assigned value 2
 };
@@ -37,26 +42,40 @@ void ToggleIcon() {
     Shell_NotifyIcon(NIM_MODIFY, &nid); // Modify the tray icon
 }
 
+
 // Function to create the context menu for the tray icon
 HMENU CreateContextMenu() {
     HMENU hMenu = CreatePopupMenu(); // Create a new popup menu
 
     // Append menu items with identifiers and text
-    AppendMenu(hMenu, MF_STRING, ITEM_OPEN_1, "Open Item 1"); // Item 1
+    // AppendMenu(hMenu, MF_STRING, ITEM_RUN_AT_STARTUP, "Run at Startup"); // Item 1
+    // Add the checkbox item to the menu with custom bitmap
+    if (isChecked) {
+        AppendMenu(hMenu, MF_STRING | MF_CHECKED, ITEM_RUN_AT_STARTUP, "Run at Startup Disable Feature"); // Item 1
+        MENUITEMINFO mii = {0};
+        mii.cbSize = sizeof(MENUITEMINFO);
+        mii.fMask = MIIM_BITMAP | MIIM_ID; // Specify bitmap and ID
+        mii.wID = ITEM_RUN_AT_STARTUP;
+        mii.hbmpItem = checkedBitmap; // Set checked bitmap
+        SetMenuItemInfo(hMenu, ITEM_RUN_AT_STARTUP, FALSE, &mii);
+    } else {
+        AppendMenu(hMenu, MF_STRING | MF_UNCHECKED, ITEM_RUN_AT_STARTUP, "Run at Startup Enable Feature"); // Item 1
+        MENUITEMINFO mii = {0};
+        mii.cbSize = sizeof(MENUITEMINFO);
+        mii.fMask = MIIM_BITMAP | MIIM_ID; // Specify bitmap and ID
+        mii.wID = ITEM_RUN_AT_STARTUP;
+        mii.hbmpItem = uncheckedBitmap; // Set unchecked bitmap
+        SetMenuItemInfo(hMenu, ITEM_RUN_AT_STARTUP, FALSE, &mii);
+    }
+
     AppendMenu(hMenu, MF_STRING, ITEM_OPEN_2, "Open Item 2"); // Item 2
     AppendMenu(hMenu, MF_SEPARATOR, 0, NULL); // Separator line
     AppendMenu(hMenu, MF_STRING, ITEM_EXIT, "Exit"); // Exit item
 
     // Set up menu item information for icons
     MENUITEMINFO mii = { 0 }; // Initialize MENUITEMINFO structure
-    // MENUITEMINFO mii;
     mii.cbSize = sizeof(MENUITEMINFO);
     mii.fMask = MIIM_BITMAP | MIIM_ID; // Specify bitmap and ID
-
-    // Set the exit bitmap for menu items
-    mii.wID = ITEM_OPEN_1;  // ID for Open Item 1
-    mii.hbmpItem = exitBitmap; // Set the bitmap for Item 1
-    SetMenuItemInfo(hMenu, ITEM_OPEN_1, FALSE, &mii);
 
     mii.wID = ITEM_OPEN_2;  // ID for Open Item 2
     mii.hbmpItem = exitBitmap; // Set the bitmap for Item 2
@@ -89,11 +108,13 @@ LRESULT CALLBACK SystemTrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
         case WM_COMMAND:
             // Handle menu item commands
             switch (LOWORD(wParam)) {
-                case ITEM_OPEN_1:
-                    MessageBox(NULL, "You clicked Open Item 1!", "Info", MB_OK); // Info message for Item 1
+                case ITEM_RUN_AT_STARTUP:
+                    isChecked = !isChecked; // Toggle checkbox state
+                    Shell_NotifyIcon(NIM_MODIFY, &nid); // Modify the tray icon to reflect changes
+                    programAutoStartup(isChecked); // Call function for ITEM_RUN_AT_STARTUP
                     break;
                 case ITEM_OPEN_2:
-                    MessageBox(NULL, "You clicked Open Item 2!", "Info", MB_OK); // Info message for Item 2
+                    handleOpenItem2(); // Call function for Item 2
                     break;
                 case ITEM_EXIT:
                     Shell_NotifyIcon(NIM_DELETE, &nid); // Remove the icon from the tray
@@ -119,7 +140,11 @@ void systemTrayInit(HINSTANCE hInstance) {
     banglaIcon = (HICON)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_bangla_keyboard));
 
     // Load bitmap for exit menu item
-    exitBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EXIT_BUTTON), IMAGE_BITMAP, 15, 15, LR_LOADTRANSPARENT);
+    exitBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EXIT_BUTTON), IMAGE_BITMAP, 16, 16, LR_LOADTRANSPARENT);
+
+    // Load bitmaps for checked and unchecked states
+    checkedBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_CHECKED), IMAGE_BITMAP, 16, 16, LR_LOADTRANSPARENT);
+    uncheckedBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_UNCHECKED), IMAGE_BITMAP, 16, 16, LR_LOADTRANSPARENT);
 
     // Register window class
     WNDCLASS wc = {0}; // Initialize WNDCLASS structure

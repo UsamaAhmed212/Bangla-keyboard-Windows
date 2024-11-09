@@ -1,8 +1,8 @@
 #include <windows.h>
 #include <process.h>  // For _beginthreadex to create a new thread
-#include "../include/systemTray.h"      // Include the system tray header
 #include "../include/splashScreen.h"    // Include splash screen header
 #include "../include/keyboard.h"        // Include keyboard header
+#include "../include/systemTray.h"      // Include the system tray header
 
 // Thread function to run the splash screen
 unsigned __stdcall splashScreenThread(void* params) {

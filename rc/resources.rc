@@ -8,3 +8,8 @@ IDI_keyboard ICON "../resources/icons/keyboard.ico"
 IDI_bangla_keyboard ICON "../resources/icons/bangla_keyboard.ico"
 
 IDB_EXIT_BUTTON BITMAP "../resources/bitmaps/exit.bmp"
+
+
+IDB_CHECKED BITMAP "../resources/bitmaps/checked.bmp"
+
+IDB_UNCHECKED BITMAP "../resources/bitmaps/unchecked.bmp"

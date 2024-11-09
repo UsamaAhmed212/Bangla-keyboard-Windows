@@ -12,14 +12,14 @@ RC_DIR = rc
 RES_DIR = resources
 
 # Source files
-SRC_FILES = $(SRC_DIR)/bangla_keyboard.c $(SRC_DIR)/splashScreen.c $(SRC_DIR)/keyboard.c $(SRC_DIR)/systemTray.c
+SRC_FILES = $(SRC_DIR)/bangla_keyboard.c $(SRC_DIR)/splashScreen.c $(SRC_DIR)/keyboard.c $(SRC_DIR)/systemTray.c $(SRC_DIR)/trayActions/programAutoStartup.c
 OBJ_FILES = $(OBJ_DIR)/resources.o
 
 # Resource script
 RESOURCES = $(RC_DIR)/resources.rc
 
 # Compiler flags
-CFLAGS = -mwindows
+CFLAGS = -lgdi32 -lole32 -mwindows
 
 # Default target
 all: build
@@ -41,4 +41,3 @@ $(OBJ_DIR)/resources.o: $(RESOURCES)
 # Clean the build
 clean:
 	rm -f $(OBJ_FILES) $(TARGET)
-
