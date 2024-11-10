@@ -113,6 +113,16 @@ void createShortcutToExe() {
     CoUninitialize();
 }
 
+// Function to remove a shortcut from the user's Startup folder
+void removeShortcutFromStartup() {
+    // Attempt to delete the shortcut file using DeleteFileA
+    if (DeleteFileA(shortcutPath)) {
+        printf("Shortcut removed from Startup folder.\n");
+    } else {
+        printf("Failed to remove shortcut from Startup folder.\n");
+    }
+}
+
 
 /**
  * Adds the application to Windows startup by creating a registry entry in the "Run" 
@@ -174,6 +184,7 @@ void programAutoStartup(int isChecked) {
         createShortcutToExe();          // If checked, Create the Shortcut
         setAutoStartupRegistryKey();    // If checked, Set Registry Key
     } else {
+        removeShortcutFromStartup();    // If Unchecked, Remove the Shortcut
         removeAutoStartupRegistryKey(); // If Unchecked, Remove Registry Key
     }
 }
