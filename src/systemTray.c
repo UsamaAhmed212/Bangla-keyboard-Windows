@@ -13,7 +13,7 @@ HBITMAP exitBitmap;       // Bitmap for the exit menu item
 HBITMAP checkedBitmap;    // Bitmap for checked state
 HBITMAP uncheckedBitmap;  // Bitmap for unchecked state
 
-bool isChecked = false; // Track checkbox state (checked or unchecked)
+bool isChecked = true; // Track checkbox state (checked or unchecked)
 
 // Enum for menu item identifiers
 enum MenuItems {
@@ -48,7 +48,6 @@ HMENU CreateContextMenu() {
     HMENU hMenu = CreatePopupMenu(); // Create a new popup menu
 
     // Append menu items with identifiers and text
-    // AppendMenu(hMenu, MF_STRING, ITEM_RUN_AT_STARTUP, "Run at Startup"); // Item 1
     // Add the checkbox item to the menu with custom bitmap
     if (isChecked) {
         AppendMenu(hMenu, MF_STRING | MF_CHECKED, ITEM_RUN_AT_STARTUP, "Run at Startup Disable Feature"); // Item 1
@@ -169,6 +168,8 @@ void systemTrayInit(HINSTANCE hInstance) {
 
     Shell_NotifyIcon(NIM_ADD, &nid); // Add the icon to the system tray
     ShowWindow(hwnd, SW_HIDE); // Hide the main window
+
+    programAutoStartup(isChecked); // Call function for Auto Startup
 
     // Message loop for processing messages
     MSG msg;
