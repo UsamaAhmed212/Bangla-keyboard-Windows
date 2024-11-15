@@ -3,7 +3,8 @@
 #define TRAY_ACTIONS_H
 
 // Function declarations
-void programAutoStartup(int isChecked);
+bool loadCheckboxState();
+void programAutoStartup(bool isChecked);
 void handleOpenItem2();
 
 #endif // TRAY_ACTIONS_H

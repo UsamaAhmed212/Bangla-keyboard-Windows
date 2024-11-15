@@ -1,10 +1,9 @@
 #include <windows.h>
-#include <shlobj.h>      // For SHGetFolderPath
-#include <stdio.h>       // For printf, wprintf
+#include <shlobj.h>     // For SHGetFolderPath
+#include <stdbool.h>    // Include the header for using boolean types (true/false)
 
 
 // Global variables for executable path, folder, name, and shortcut name
-
 char exePath[MAX_PATH];
 char exeFolderPath[MAX_PATH];
 
@@ -16,14 +15,12 @@ char startupFolderPath[MAX_PATH];
 char shortcutPath[MAX_PATH];
 char shortcutName[MAX_PATH];
 
+char registryPath[MAX_PATH];
 
-// Function to initialize global variable Executable Info
-void initializeExecutableDetails() {
+// Function to initialize global variables
+void initializeVariables() {
     // Retrieve the path of the currently running executable
-    if (GetModuleFileName(NULL, exeFolderPath, MAX_PATH) == 0) {
-        printf("Failed to get the executable path.\n");
-        return;
-    }
+    if (GetModuleFileName(NULL, exeFolderPath, MAX_PATH) == 0) return;
     
     // Extract the folder path from the full executable path
     char* lastBackslash = strrchr(exeFolderPath, '\\');  // Find the last backslash
@@ -46,21 +43,25 @@ void initializeExecutableDetails() {
         *ext = '\0';  // Remove the extension part
     }
 
-    // Construct the full path to the executable
+    /**
+     * Construct the full path to the executable
+     * The executable path is constructed as "{exeFolderPath}\\{exeName}.exe"
+     */
     snprintf(exePath, MAX_PATH, "%s\\%s.exe", exeFolderPath, exeName);
 
 
     // Retrieve the user's Startup folder dynamically
-    if (SHGetFolderPathA(NULL, CSIDL_STARTUP, NULL, 0, startupFolderPath) != S_OK) {
-        printf("Failed to retrieve Startup folder path.\n");
-        return;
-    }
+    if (SHGetFolderPathA(NULL, CSIDL_STARTUP, NULL, 0, startupFolderPath) != S_OK) return;
 
     // Copy the value of exeName into shortcutName
     strcpy(shortcutName, exeName);
 
-    // Build the full path to the shortcut
+    
+    // The path is constructed as "{startupFolderPath}\{shortcutName}.lnk"
     snprintf(shortcutPath, MAX_PATH, "%s\\%s.lnk", startupFolderPath, shortcutName); // Use the same shortcut name as created in createShortcutToExe
+    
+    // The registry path is constructed  as "Software\{exeFolderName}\Settings"
+    snprintf(registryPath, MAX_PATH, "Software\\%s\\Settings", exeFolderName);
 }
 
 
@@ -85,7 +86,10 @@ void createShortcutToExe() {
         // Set the path to the executable
         psl->lpVtbl->SetPath(psl, exePath);
 
-        // Create the description dynamically
+        /**
+         * Create the description dynamically
+         * The shortcut description is dynamically set as "Shortcut to ({exeName}.exe)"
+         */
         char description[MAX_PATH];
         snprintf(description, MAX_PATH, "Shortcut to (%s.exe)", exeName);
         psl->lpVtbl->SetDescription(psl, description); // Set the dynamic description
@@ -101,12 +105,8 @@ void createShortcutToExe() {
             // Save the shortcut
             hres = ppf->lpVtbl->Save(ppf, wsz, TRUE);
             ppf->lpVtbl->Release(ppf);  // Release IPersistFile
-        } else {
-            printf("Failed to get IPersistFile interface.\n");
         }
         psl->lpVtbl->Release(psl);  // Release IShellLink
-    } else {
-        printf("Failed to create IShellLink instance.\n");
     }
 
     // Uninitialize COM library
@@ -116,12 +116,9 @@ void createShortcutToExe() {
 // Function to remove a shortcut from the user's Startup folder
 void removeShortcutFromStartup() {
     // Attempt to delete the shortcut file using DeleteFileA
-    if (DeleteFileA(shortcutPath)) {
-        printf("Shortcut removed from Startup folder.\n");
-    } else {
-        printf("Failed to remove shortcut from Startup folder.\n");
-    }
+    DeleteFileA(shortcutPath);
 }
+
 
 
 /**
@@ -130,22 +127,13 @@ void removeShortcutFromStartup() {
  * when the user logs in.
  */
 void setAutoStartupRegistryKey() {
-    HKEY hKey; // Handle for the registry key
-    
+    HKEY hKey;  // Handle for the registry key
+
     // Attempt to open the "Run" registry key under HKEY_CURRENT_USER for writing
     if (RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_SET_VALUE, &hKey) == ERROR_SUCCESS) {
-
         // Set a new registry dynamic value exeFolderName variable to enable auto startup
-        if (RegSetValueEx(hKey, exeFolderName, 0, REG_SZ, (const BYTE *)exePath, (DWORD)(strlen(exePath) + 1)) == ERROR_SUCCESS) {
-            printf("Successfully added to startup.\n"); // Success message
-        } else {
-            printf("Failed to set registry value.\n"); // Error message if setting value fails
-        }
-
-        // Close the registry key handle to release resources
-        RegCloseKey(hKey);
-    } else {
-        printf("Failed to open registry key.\n"); // Error message if unable to open key
+        RegSetValueEx(hKey, exeFolderName, 0, REG_SZ, (const BYTE *)exePath, (DWORD)(strlen(exePath) + 1));
+        RegCloseKey(hKey); // Close the registry key handle to release resources
     }
 }
 
@@ -155,38 +143,60 @@ void setAutoStartupRegistryKey() {
  * from launching automatically when the user logs in.
  */
 void removeAutoStartupRegistryKey() {
-    HKEY hKey; // Handle for the registry key
+    HKEY hKey;  // Handle for the registry key
 
     // Attempt to open the "Run" registry key under HKEY_CURRENT_USER for writing
     if (RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_SET_VALUE, &hKey) == ERROR_SUCCESS) {
-
         // Attempt to delete the registry value associated with exeFolderName to disable auto-startup
-        if (RegDeleteValue(hKey, exeFolderName) == ERROR_SUCCESS) {
-            printf("Successfully removed from startup.\n"); // Success message if the value is deleted
-        } else {
-            printf("Failed to delete registry value.\n"); // Error message if deleting the value fails
-        }
-
-        // Close the registry key handle to release resources
-        RegCloseKey(hKey);
-    } else {
-        printf("Failed to open registry key.\n"); // Error message if unable to open the key
+        RegDeleteValue(hKey, exeFolderName);
+        RegCloseKey(hKey); // Close the registry key handle to release resources
     }
 }
 
 
-// Function to handle "Open Item 1" action
-void programAutoStartup(int isChecked) {
-    printf("isChecked: %d\n", isChecked);
+// Function to load the checkbox state from the registry
+bool loadCheckboxState() {
+    initializeVariables();
 
+    HKEY hKey;                       // Handle for the registry key
+    DWORD value = 1;                 // Default value (checked state)
+    DWORD valueSize = sizeof(value); // Size of the DWORD variable
+
+    // Open the registry key for reading
+    if (RegOpenKeyEx(HKEY_CURRENT_USER, registryPath, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+        // Retrieve the stored checkbox state
+        RegQueryValueEx(hKey, "RUN_AT_STARTUP_CHECKBOX_STATE", NULL, NULL, (LPBYTE)&value, &valueSize);
+        RegCloseKey(hKey);  // Close the registry key handle to release resources
+    }
+    return value != 0; // Returns true if the checkbox is enabled, false if disabled
+}
+
+// Function to save the checkbox state in the registry
+void saveCheckboxState(bool state) {
+    HKEY hKey;  // Handle for the registry key
+
+    // Attempt to create or open the registry key for writing
+    if (RegCreateKeyEx(HKEY_CURRENT_USER, registryPath, 0, NULL, 0, KEY_WRITE, NULL, &hKey, NULL) == ERROR_SUCCESS) {
+        DWORD value = state ? 1 : 0; // Set value to 1 if checked, 0 if unchecked
+        
+        // Store the checkbox state as a DWORD in the registry
+        RegSetValueEx(hKey, "RUN_AT_STARTUP_CHECKBOX_STATE", 0, REG_DWORD, (const BYTE*)&value, sizeof(value));
+        RegCloseKey(hKey); // Close the registry key handle to release resources
+    }
+}
+
+
+// Function to handle program auto-startup behavior based on the checkbox state.
+void programAutoStartup(bool isChecked) {
     if (isChecked) {
-        initializeExecutableDetails();  // Initialize the executable details
-        createShortcutToExe();          // If checked, Create the Shortcut
+        // createShortcutToExe();          // If checked, Create the Shortcut
         setAutoStartupRegistryKey();    // If checked, Set Registry Key
     } else {
-        removeShortcutFromStartup();    // If Unchecked, Remove the Shortcut
+        // removeShortcutFromStartup();    // If Unchecked, Remove the Shortcut
         removeAutoStartupRegistryKey(); // If Unchecked, Remove Registry Key
     }
+
+    saveCheckboxState(isChecked);   // Save the updated state to the registry
 }
 
 // Function to handle "Open Item 2" action

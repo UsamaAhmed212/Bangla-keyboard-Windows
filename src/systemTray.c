@@ -13,7 +13,7 @@ HBITMAP exitBitmap;       // Bitmap for the exit menu item
 HBITMAP checkedBitmap;    // Bitmap for checked state
 HBITMAP uncheckedBitmap;  // Bitmap for unchecked state
 
-bool isChecked = true; // Track checkbox state (checked or unchecked)
+bool isChecked; // Track checkbox state (checked or unchecked)
 
 // Enum for menu item identifiers
 enum MenuItems {
@@ -86,6 +86,7 @@ HMENU CreateContextMenu() {
 
     return hMenu; // Return the created menu
 }
+                    #include <stdio.h>
 
 // Window Procedure to handle messages for the application window
 LRESULT CALLBACK SystemTrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
@@ -168,6 +169,9 @@ void systemTrayInit(HINSTANCE hInstance) {
 
     Shell_NotifyIcon(NIM_ADD, &nid); // Add the icon to the system tray
     ShowWindow(hwnd, SW_HIDE); // Hide the main window
+    
+    // Load the last saved checkbox state (checked or unchecked)
+    isChecked = loadCheckboxState();
 
     programAutoStartup(isChecked); // Call function for Auto Startup
 
