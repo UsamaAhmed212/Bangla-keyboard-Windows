@@ -9,35 +9,44 @@ TARGET = "Bangla Keyboard.exe"
 SRC_DIR = src
 OBJ_DIR = obj
 RC_DIR = rc
-RES_DIR = resources
 
 # Source files
-SRC_FILES = $(SRC_DIR)/bangla_keyboard.c $(SRC_DIR)/splashScreen.c $(SRC_DIR)/keyboard.c $(SRC_DIR)/systemTray.c $(SRC_DIR)/trayActions/programAutoStartup.c
-OBJ_FILES = $(OBJ_DIR)/resources.o
+SRC_FILES = $(SRC_DIR)/bangla_keyboard.c $(SRC_DIR)/splashScreen.c $(SRC_DIR)/keyboard.c \
+            $(SRC_DIR)/systemTray.c $(SRC_DIR)/trayActions/programAutoStartup.c
+OBJ_FILES = $(OBJ_DIR)/resources.o $(OBJ_DIR)/version.res
 
-# Resource script
+# Resource scripts
 RESOURCES = $(RC_DIR)/resources.rc
+VERSION_RC = $(RC_DIR)/version.rc
 
 # Compiler flags
 CFLAGS = -lgdi32 -lole32 -mwindows
 
+$(TARGET): $(SRC_FILES) $(OBJ_FILES)
+	$(CC) $(SRC_FILES) $(OBJ_FILES) -o $(TARGET) $(CFLAGS)
+
+# Compile resource files
+$(OBJ_DIR)/resources.o: $(RESOURCES)
+	$(WINDRES) $(RESOURCES) -o $(OBJ_DIR)/resources.o
+
+$(OBJ_DIR)/version.res: $(VERSION_RC)
+	$(WINDRES) $(VERSION_RC) -O coff -o $(OBJ_DIR)/version.res
+
+# Ensure necessary directories exist
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+	
 # Default target
 all: build
 
 # Build the executable
 build: $(TARGET)
 
-$(TARGET): $(SRC_FILES) $(OBJ_FILES)
-	$(CC) $(SRC_FILES) $(OBJ_FILES) -o $(TARGET) $(CFLAGS)
-
 # Run the executable
 run: build
 	./$(TARGET)
 
-# Compile resource file
-$(OBJ_DIR)/resources.o: $(RESOURCES)
-	$(WINDRES) $(RESOURCES) -o $(OBJ_DIR)/resources.o
-
 # Clean the build
 clean:
 	rm -f $(OBJ_FILES) $(TARGET)
+

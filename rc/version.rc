@@ -1,0 +1,23 @@
+1 VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "FileVersion",      "1.0.0.0"
+            VALUE "ProductName",      "Bangla Keyboard"
+            VALUE "FileDescription",  "Bangla Keyboard - Open Source"
+            VALUE "ProductVersion",   "1.0.0.0"
+            VALUE "LegalCopyright",   "Usama Ahmed  2024. All rights reserved."
+            VALUE "InternalName",     "Bangla Keyboard"
+            VALUE "OriginalFilename", "Bangla Keyboard"
+            VALUE "LegalTrademarks",  "Sabbir Ahmed"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
