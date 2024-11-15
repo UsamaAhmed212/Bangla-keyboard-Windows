@@ -3,6 +3,7 @@
 #include "../include/splashScreen.h"    // Include splash screen header
 #include "../include/keyboard.h"        // Include keyboard header
 #include "../include/systemTray.h"      // Include the system tray header
+#include "../include/resource.h"  // Include custom resources
 
 // Thread function to run the splash screen
 unsigned __stdcall splashScreenThread(void* params) {
@@ -22,6 +23,30 @@ unsigned __stdcall systemTrayThread(void* params) {
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
+    // Create a named mutex to check if another instance is running
+    HANDLE hMutex = CreateMutex(NULL, TRUE, "BanglaKeyboardMutex");
+
+    if (GetLastError() == ERROR_ALREADY_EXISTS) {
+        // If the mutex already exists, it means the program is already running
+        HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_WARNING_SING));
+    
+        // Create a message box with custom parameters
+        MSGBOXPARAMS mbp = {0};
+        mbp.cbSize = sizeof(MSGBOXPARAMS);
+        mbp.hwndOwner = NULL;
+        mbp.hInstance = GetModuleHandle(NULL);
+        mbp.lpszText = "Bangla Keyboard is already running on this system and running more than one instance is not allowed.";
+        mbp.lpszCaption = "Bangla Keyboard";
+        mbp.dwStyle = MB_OK | MB_USERICON;
+        mbp.lpszIcon = MAKEINTRESOURCE(IDI_WARNING_SING);  // Use your icon resource ID here
+
+        MessageBoxIndirect(&mbp);
+        
+        DestroyIcon(hIcon);
+        return 0; // Exit the program
+    }
+    
+    
     // Create an array to pass parameters to the threads
     void* params[2] = { hInstance, (void*)(intptr_t)nShowCmd };
 
@@ -47,6 +72,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Close the thread handles
     CloseHandle(hThread1); // Clean up the splash screen thread handle
     CloseHandle(hThread2); // Clean up the system tray thread handle
+    
+    CloseHandle(hMutex); // Clean up and close the mutex when done
 
     return 0;  // Return to indicate the application exited successfully
 }

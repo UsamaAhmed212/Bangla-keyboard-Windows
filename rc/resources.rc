@@ -7,6 +7,8 @@ IDB_SPLASH_SCREEN BITMAP "../resources/bitmaps/avro_keyboard_splash_screen.bmp"
 IDI_keyboard ICON "../resources/icons/keyboard.ico"
 IDI_bangla_keyboard ICON "../resources/icons/bangla_keyboard.ico"
 
+IDI_WARNING_SING ICON "./resources/icons/warning-sing.ico"
+
 IDB_EXIT_BUTTON BITMAP "../resources/bitmaps/exit.bmp"
 
 

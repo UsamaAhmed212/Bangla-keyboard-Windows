@@ -7,6 +7,8 @@
 #define IDI_keyboard 101            // ID for keyboard.ico
 #define IDI_bangla_keyboard 102     // ID for bangla_keyboard.ico
 
+#define IDI_WARNING_SING 106            // ID for warning-sing.ico
+
 // Bitmap resources
 #define IDB_SPLASH_SCREEN 100       // Splash Screen
 
