@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "../include/resource.h"  // Include custom resources
 #include "../include/trayActions/programAutoStartup.h"  // Include the header file for the menu items actions
+#include "../include/shared.h"  // Include shared resources like variables and function prototypes from the shared header file
 
 // Global variables for tray icon and images
 NOTIFYICONDATA nid;       // Structure for the notification icon
@@ -102,7 +103,8 @@ LRESULT CALLBACK SystemTrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
                 TrackPopupMenu(hMenu, TPM_RIGHTBUTTON, cursorPos.x, cursorPos.y, 0, hwnd, NULL); // Show the menu
                 DestroyMenu(hMenu); // Clean up the menu after use
             } else if (lParam == WM_LBUTTONUP) {
-                ToggleIcon(); // Toggle the tray icon on left-click
+                typingMode = !typingMode;  // Toggle (typingMode) between English and Bangla modes
+                ToggleIcon();  // Toggle the tray icon on left-click
             }
             break;
         case WM_COMMAND:
