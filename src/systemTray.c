@@ -50,7 +50,7 @@ HMENU CreateContextMenu() {
     // Append menu items with identifiers and text
     // Add the checkbox item to the menu with custom bitmap
     if (isChecked) {
-        AppendMenu(hMenu, MF_STRING | MF_CHECKED, ITEM_RUN_AT_STARTUP, "Run at Startup Disable Feature"); // Item 1
+        AppendMenu(hMenu, MF_STRING | MF_CHECKED, ITEM_RUN_AT_STARTUP, "Run at Startup"); // Item 1
         MENUITEMINFO mii = {0};
         mii.cbSize = sizeof(MENUITEMINFO);
         mii.fMask = MIIM_BITMAP | MIIM_ID; // Specify bitmap and ID
@@ -58,7 +58,7 @@ HMENU CreateContextMenu() {
         mii.hbmpItem = checkedBitmap; // Set checked bitmap
         SetMenuItemInfo(hMenu, ITEM_RUN_AT_STARTUP, FALSE, &mii);
     } else {
-        AppendMenu(hMenu, MF_STRING | MF_UNCHECKED, ITEM_RUN_AT_STARTUP, "Run at Startup Enable Feature"); // Item 1
+        AppendMenu(hMenu, MF_STRING | MF_UNCHECKED, ITEM_RUN_AT_STARTUP, "Run at Startup"); // Item 1
         MENUITEMINFO mii = {0};
         mii.cbSize = sizeof(MENUITEMINFO);
         mii.fMask = MIIM_BITMAP | MIIM_ID; // Specify bitmap and ID
@@ -86,7 +86,7 @@ HMENU CreateContextMenu() {
 
     return hMenu; // Return the created menu
 }
-                    #include <stdio.h>
+
 
 // Window Procedure to handle messages for the application window
 LRESULT CALLBACK SystemTrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {

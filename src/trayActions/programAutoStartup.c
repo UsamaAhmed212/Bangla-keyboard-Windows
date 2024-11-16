@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <shlobj.h>     // For SHGetFolderPath
 #include <stdbool.h>    // Include the header for using boolean types (true/false)
-
+#include <stdio.h>
 
 // Global variables for executable path, folder, name, and shortcut name
 char exePath[MAX_PATH];

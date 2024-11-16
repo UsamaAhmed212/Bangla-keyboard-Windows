@@ -2,16 +2,7 @@
 
 ## **Overview**
 
-This guide explains how to compile a C program into an executable (`.exe`) with a custom icon.
-
-## **Prerequisites**
-
-Ensure you have the following files in your project directory:
-
-- **`bangla_keyboard.c`**: Your main C source file.
-- **`bangla_keyboard.ico`**: Your custom icon file.
-- **`resource.h`**: Resource header file.
-- **`resources.rc`**: Resource script file.
+This guide explains how to compile a C program into an executable (`.exe`).
 
 ## **Compilation Steps 01**
 
@@ -20,25 +11,24 @@ Ensure you have the following files in your project directory:
 Run the following command:
 
 ```bash
-windres rc/resources.rc -o obj/resources.o
+windres rc/resources.rc -o obj/resources.o && windres rc/version.rc -O coff -o obj/version.res
 ```
-## Expected Result:
-
-- **`resources.o`**: that contains machine code.
 
 ### 2. Generated Executable File (.exe)
 ```bash
-gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c obj/resources.o -o "Bangla Keyboard.exe" -lgdi32 -lole32 -mwindows
+gcc gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -mwindows
 ```
 OR
 ```bash
-gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c obj/resources.o -o "Bangla Keyboard.exe" -lgdi32 -lole32 -lgdi32 -lcomctl32 -lshell32
+gcc gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -lgdi32 -lcomctl32 -lshell32
 ```
 OR
 ```bash
-gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c obj/resources.o -o "Bangla Keyboard.exe" -lgdi32 -lole32 -mwindows -lgdi32 -lcomctl32 -lshell32
+gcc gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -mwindows -lgdi32 -lcomctl32 -lshell32
 ```
+
 #### Behavior of Flags
+
 > **`-mwindows:`** Tells GCC to create a Windows GUI application. This means that the application will not have a console window attached to it when run.
 
 > **`-lgdi32:`** Links the program with the gdi32.lib library.gdi32 is the Windows Graphics Device Interface (GDI) library, which provides functions for handling graphics, drawing text, handling fonts, and managing devices like printers and monitors.

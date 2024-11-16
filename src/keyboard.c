@@ -534,7 +534,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                 ** Vowel (স্বরবর্ণ) Key Mapping 
                 **/
                 case 0x41: // 'A' or 'a'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'a'
@@ -555,7 +555,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x49: // 'I' or 'i'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'i'
@@ -576,7 +576,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x55: // 'U' or 'u'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'u'
@@ -597,7 +597,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x45: // 'E' or 'e'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (rie_keyPressCount == 2) {
                         SendBackspace(2);  // Send two backspaces
@@ -628,7 +628,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x4F: // 'O' or 'o'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (umo_keyPressCount == 2) {
                         SendBackspace(2);  // Send two backspaces
@@ -665,7 +665,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                 ** Consonant (ব্যঞ্জনবর্ণ)	Key Mapping
                 **/
                 case 0x4B: // 'K' or 'k'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                
                     if (!isUppercase()) {
                         // Handle Lowercase 'k'
@@ -678,7 +678,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x47: // 'G' or 'g'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                
                     if (!isUppercase()) {
                         // Handle Lowercase 'g'
@@ -691,7 +691,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x43: // 'C' or 'c'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'c'
@@ -704,7 +704,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x4A: // 'J' or 'j'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                
                     if (!isUppercase()) {
                         // Handle Lowercase 'j'
@@ -717,7 +717,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x54: // 'T' or't'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                
                     if (!isUppercase()) {
                         // Handle Lowercase 't'
@@ -743,7 +743,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x44: // 'D' or 'd'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'd'
@@ -768,7 +768,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x4E: // 'N' or 'n'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'n'
@@ -782,7 +782,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x50: // 'P' or 'p'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'p'
@@ -795,7 +795,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x46: // 'F' or 'f'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'p'
@@ -808,7 +808,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x42: // 'B' or 'b'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'b'
@@ -833,7 +833,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x56: // 'V' or 'v'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'v'
@@ -858,7 +858,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x4D: // 'M' or 'm'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'm'
@@ -871,7 +871,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x5A: // 'Z' or 'z'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     
                     if (!isUppercase()) {
                         // Handle Lowercase 'z'
@@ -891,7 +891,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x52: // 'R' or'r'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'r'
@@ -924,14 +924,14 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x4C: // 'L' or 'l'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     SendUnicodeChar(0x4C, 0x9B2);  // 'ল'
                     return 1; // Block original 'L' or 'l'
 
 
                 case 0x53: // 'S' or 's'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 's'
@@ -944,21 +944,21 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x48: // 'H' or 'h'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     SendUnicodeChar(0x48, 0x9B9);  // 'হ'
                     return 1; // Block original 'H' or 'h'
 
 
                 case 0x59: // 'Y' or 'y'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     SendUnicodeChar(0x59, 0x9DF);  // 'য়'
                     return 1; // Block original 'Y' or 'y'
 
 
                 case 0x51: // 'Q' or 'q'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isUppercase()) {
                         // Handle Lowercase 'q'
@@ -971,7 +971,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0xBA: // (Colon)':'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (isShiftPressed()) {
                         if (colon_keyPressCount == 1) {
@@ -988,7 +988,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
 
 
                 case 0x36: // // '6' Or '^'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (isShiftPressed()) {
                         SendUnicodeChar(0xDC, 0x981);  // 'ঁ'
@@ -1004,7 +1004,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     - "হসন্ত"
                 */
                 case 0x58: // 'X' or'x'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (!isShiftPressed() || unicodeCharArraySize < 1) { // Check if the Shift key is not pressed
                         SendUnicodeChar(0x58, 0x9CD);  // '্‌'(হসন্ত)
@@ -1032,7 +1032,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     - "।" - দাড়ি
                 */
                 case 0xBE: // '.' (Period key)
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     
                     if (!isShiftPressed()) {
                         SendUnicodeChar(0xBE, 0x0964);  // '।' (Bengali Full Stop)
@@ -1046,7 +1046,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     - "." - ডট
                 */
                 case VK_DECIMAL: // '.' Numeric Keypad
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     
                     if (!isShiftPressed()) {
                         SendUnicodeChar(VK_DECIMAL, 0x002E);  // '.' (Bangla Dot)
@@ -1060,7 +1060,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                     - "৳" - টাকা
                 */
                 case 0x34: // '4'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
 
                     if (isShiftPressed()) {
                         SendUnicodeChar(0x34, 0x09f3);  // '৳'(টাকা)
@@ -1077,61 +1077,61 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
                  */
                 case 0x30: // '0'
                 case VK_NUMPAD0: // Numeric keypad '0'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     SendUnicodeChar(0x30, 0x09E6);  // '০' (Zero)
                     return 1;  // Block original key input
 
                 case 0x31: // '1'
                 case VK_NUMPAD1: // Numeric keypad '1'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     SendUnicodeChar(0x31, 0x09E7);  // '১' (One)
                     return 1;  // Block original key input
 
                 case 0x32: // '2'
                 case VK_NUMPAD2: // Numeric keypad '2'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     SendUnicodeChar(0x32, 0x09E8);  // '২' (Two)
                     return 1;  // Block original key input
 
                 case 0x33: // '3'
                 case VK_NUMPAD3: // Numeric keypad '3'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     SendUnicodeChar(0x33, 0x09E9);  // '৩' (Three)
                     return 1;  // Block original key input
 
                 // case 0x34: // '4'
                 case VK_NUMPAD4: // Numeric keypad '4'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     SendUnicodeChar(0x34, 0x09EA);  // '৪' (Four)
                     return 1;  // Block original key input
 
                 case 0x35: // '5'
                 case VK_NUMPAD5: // Numeric keypad '5'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     SendUnicodeChar(0x35, 0x09EB);  // '৫' (Five)
                     return 1;  // Block original key input
 
                 // case 0x36: // '6'
                 case VK_NUMPAD6: // Numeric keypad '6'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     SendUnicodeChar(0x36, 0x09EC);  // '৬' (Six)
                     return 1;  // Block original key input
 
                 case 0x37: // '7'
                 case VK_NUMPAD7: // Numeric keypad '7'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     SendUnicodeChar(0x37, 0x09ED);  // '৭' (Seven)
                     return 1;  // Block original key input
 
                 case 0x38: // '8'
                 case VK_NUMPAD8: // Numeric keypad '8'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     SendUnicodeChar(0x38, 0x09EE);  // '৮' (Eight)
                     return 1;  // Block original key input
 
                 case 0x39: // '9'
                 case VK_NUMPAD9: // Numeric keypad '9'
-                    if (isCtrlPressed || isWindowsKeyPressed) return 0; // Allow original key input if Ctrl or Windows key is pressed
+                     if (isCtrlPressed || isAltPressed || isWindowsKeyPressed) return 0; // Allow original key input if (Ctrl/Alt/Windows) key is pressed
                     SendUnicodeChar(0x39, 0x09EF);  // '৯' (Nine)
                     return 1;  // Block original key input
 
