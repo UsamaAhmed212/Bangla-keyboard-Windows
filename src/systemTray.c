@@ -8,8 +8,9 @@
 
 // Global variables for tray icon and images
 NOTIFYICONDATA nid;       // Structure for the notification icon
-HICON currentIcon;        // Current icon displayed in the tray
+HICON defaultIcon;        // Current icon displayed in the tray
 HICON banglaIcon;         // Bangla keyboard icon
+HICON currentIcon;        // Current icon displayed in the tray
 HBITMAP exitBitmap;       // Bitmap for the exit menu item
 HBITMAP checkedBitmap;    // Bitmap for checked state
 HBITMAP uncheckedBitmap;  // Bitmap for unchecked state
@@ -24,19 +25,17 @@ enum MenuItems {
 };
 
 // Function declarations
-void ToggleIcon();
 HMENU CreateContextMenu();
 LRESULT CALLBACK SystemTrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-// Function to toggle the tray icon between two states
+// Function to toggle the system tray icon based on the current typing mode
 void ToggleIcon() {
     HINSTANCE hInstance = GetModuleHandle(NULL); // Get the handle of the current module
-
-    // Check current icon and toggle
-    if (currentIcon == (HICON)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_keyboard))) {
+    // Check typing mode (Bangla or English) and update the system tray icon
+    if (typingMode == 1 ) {
         currentIcon = banglaIcon; // Switch to Bangla icon
     } else {
-        currentIcon = (HICON)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_keyboard)); // Switch back to the default icon
+        currentIcon = defaultIcon; // Switch back to the default icon
     }
 
     nid.hIcon = currentIcon; // Update the icon in the NOTIFYICONDATA structure
@@ -138,7 +137,7 @@ LRESULT CALLBACK SystemTrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 // Function to initialize the system tray
 void systemTrayInit(HINSTANCE hInstance) {
     // Load icons for the tray application
-    currentIcon = (HICON)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_keyboard));
+    defaultIcon = (HICON)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_keyboard));
     banglaIcon = (HICON)LoadIcon(hInstance, MAKEINTRESOURCE(IDI_bangla_keyboard));
 
     // Load bitmap for exit menu item
@@ -165,7 +164,7 @@ void systemTrayInit(HINSTANCE hInstance) {
     nid.hWnd = hwnd; // Set the window handle
     nid.uID = 1; // Set icon ID
     nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP; // Set icon, message, and tooltip
-    nid.hIcon = currentIcon; // Set the current icon
+    nid.hIcon = defaultIcon; // Set the defaultIcon icon
     nid.uCallbackMessage = WM_APP; // Set callback message
     strcpy(nid.szTip, "Bangla Keyboard"); // Set tooltip text
 
@@ -185,7 +184,7 @@ void systemTrayInit(HINSTANCE hInstance) {
     }
 
     // Clean up resources before exiting
-    DestroyIcon(currentIcon); // Destroy current icon
+    DestroyIcon(defaultIcon); // Destroy current icon
     DestroyIcon(banglaIcon); // Destroy Bangla icon
     DeleteObject(exitBitmap); // Delete exit bitmap
 }

@@ -512,6 +512,12 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
     if (nCode == HC_ACTION) {
         KBDLLHOOKSTRUCT *pKeyboard = (KBDLLHOOKSTRUCT *)lParam;
 
+        // Check if both the Ctrl key and Space key are currently pressed
+        if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_SPACE) & 0x8000)) {
+            typingMode = !typingMode;  // Toggle (typingMode) between English and Bangla modes
+            ToggleIcon();  // Update the system tray icon based on the current typing mode
+        }
+
         if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
             if (typingMode == 1 ) { // Check if typing mode is set to Bangla (1) Not English (0)
                 bool isCtrlPressed = (GetAsyncKeyState(VK_CONTROL) & 0x8000);  // Check if Ctrl is pressed

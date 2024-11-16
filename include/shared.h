@@ -4,5 +4,6 @@
 
 // Declaration of the shared variable
 extern int typingMode;
+void ToggleIcon();
 
 #endif // SHARED_H
