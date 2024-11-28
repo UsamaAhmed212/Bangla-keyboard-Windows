@@ -199,7 +199,3 @@ void programAutoStartup(bool isChecked) {
     saveCheckboxState(isChecked);   // Save the updated state to the registry
 }
 
-// Function to handle "Open Item 2" action
-void handleOpenItem2() {
-    MessageBox(NULL, "You clicked Open Item 2!", "Info", MB_OK); // Info message for Item 2
-}

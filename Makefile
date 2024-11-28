@@ -12,7 +12,7 @@ RC_DIR = rc
 
 # Source files
 SRC_FILES = $(SRC_DIR)/bangla_keyboard.c $(SRC_DIR)/splashScreen.c $(SRC_DIR)/keyboard.c \
-            $(SRC_DIR)/systemTray.c $(SRC_DIR)/trayActions/programAutoStartup.c
+            $(SRC_DIR)/systemTray.c $(SRC_DIR)/trayActions/programAutoStartup.c $(SRC_DIR)/trayActions/keyboardLayout.c
 OBJ_FILES = $(OBJ_DIR)/resources.o $(OBJ_DIR)/version.res
 
 # Resource scripts

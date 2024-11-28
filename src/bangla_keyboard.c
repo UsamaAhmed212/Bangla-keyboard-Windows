@@ -1,9 +1,14 @@
+// bangla_keyboard.c
 #include <windows.h>
 #include <process.h>  // For _beginthreadex to create a new thread
 #include "../include/splashScreen.h"    // Include splash screen header
 #include "../include/keyboard.h"        // Include keyboard header
 #include "../include/systemTray.h"      // Include the system tray header
+#include "../include/trayActions/keyboardLayout.h"  // Include keyboard Layout header
 #include "../include/resource.h"  // Include custom resources
+#include "../include/app_data.h"  // Include shared app data
+
+AppData appData; // Define the global instance
 
 // Thread function to run the splash screen
 unsigned __stdcall splashScreenThread(void* params) {
@@ -22,7 +27,12 @@ unsigned __stdcall systemTrayThread(void* params) {
     return 0;
 }
 
+
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
+    appData.hInstance = hInstance;
+    appData.nShowCmd = nShowCmd;
+
     // Create a named mutex to check if another instance is running
     HANDLE hMutex = CreateMutex(NULL, TRUE, "BanglaKeyboardMutex");
 
@@ -57,8 +67,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Start a new thread to initialize the system tray
     unsigned threadID2;
     HANDLE hThread2 = (HANDLE)_beginthreadex(NULL, 0, systemTrayThread, params, 0, &threadID2);
-    
-    
+
     // Call the Bangla Keyboard function (runs in the main thread)
     initializeBangleKeyboard(hInstance);
     
@@ -68,7 +77,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // Wait for the system tray thread to finish
     WaitForSingleObject(hThread2, INFINITE); // Wait indefinitely until the system tray thread finishes
-    
+
     // Close the thread handles
     CloseHandle(hThread1); // Clean up the splash screen thread handle
     CloseHandle(hThread2); // Clean up the system tray thread handle

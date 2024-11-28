@@ -17,4 +17,6 @@
 #define IDB_CHECKED 104             // Bitmap ID for check button
 #define IDB_UNCHECKED 105           // Bitmap ID for uncheck button
 
+#define IDB_KEYBOARD 107           // Bitmap ID for uncheck button
+
 #endif // RESOURCE_H

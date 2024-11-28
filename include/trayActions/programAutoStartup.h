@@ -5,6 +5,5 @@
 // Function declarations
 bool loadCheckboxState();
 void programAutoStartup(bool isChecked);
-void handleOpenItem2();
 
 #endif // TRAY_ACTIONS_H

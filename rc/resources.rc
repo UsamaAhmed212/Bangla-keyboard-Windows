@@ -15,3 +15,5 @@ IDB_EXIT_BUTTON BITMAP "../resources/bitmaps/exit.bmp"
 IDB_CHECKED BITMAP "../resources/bitmaps/checked.bmp"
 
 IDB_UNCHECKED BITMAP "../resources/bitmaps/unchecked.bmp"
+
+IDB_KEYBOARD BITMAP "../resources/bitmaps/keyboard.bmp"

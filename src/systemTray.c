@@ -4,7 +4,9 @@
 #include <stdbool.h>
 #include "../include/resource.h"  // Include custom resources
 #include "../include/trayActions/programAutoStartup.h"  // Include the header file for the menu items actions
+#include "../include/trayActions/keyboardLayout.h"  // Include keyboard Layout header
 #include "../include/shared.h"  // Include shared resources like variables and function prototypes from the shared header file
+#include "../include/app_data.h"  // Include shared app data
 
 // Global variables for tray icon and images
 NOTIFYICONDATA nid;       // Structure for the notification icon
@@ -14,13 +16,14 @@ HICON currentIcon;        // Current icon displayed in the tray
 HBITMAP exitBitmap;       // Bitmap for the exit menu item
 HBITMAP checkedBitmap;    // Bitmap for checked state
 HBITMAP uncheckedBitmap;  // Bitmap for unchecked state
+HBITMAP keyboardLayoutBitmap;  // Bitmap for keyboard Layout
 
 bool isChecked; // Track checkbox state (checked or unchecked)
 
 // Enum for menu item identifiers
 enum MenuItems {
     ITEM_RUN_AT_STARTUP, // Automatically assigned value 0
-    ITEM_OPEN_2, // Automatically assigned value 1
+    SHOW_KEYBOARD_LAYOUT, // Automatically assigned value 1
     ITEM_EXIT    // Automatically assigned value 2
 };
 
@@ -67,7 +70,7 @@ HMENU CreateContextMenu() {
         SetMenuItemInfo(hMenu, ITEM_RUN_AT_STARTUP, FALSE, &mii);
     }
 
-    AppendMenu(hMenu, MF_STRING, ITEM_OPEN_2, "Open Item 2"); // Item 2
+    AppendMenu(hMenu, MF_STRING, SHOW_KEYBOARD_LAYOUT, "Show Keyboard Layout"); // Item 2
     AppendMenu(hMenu, MF_SEPARATOR, 0, NULL); // Separator line
     AppendMenu(hMenu, MF_STRING, ITEM_EXIT, "Exit"); // Exit item
 
@@ -76,9 +79,9 @@ HMENU CreateContextMenu() {
     mii.cbSize = sizeof(MENUITEMINFO);
     mii.fMask = MIIM_BITMAP | MIIM_ID; // Specify bitmap and ID
 
-    mii.wID = ITEM_OPEN_2;  // ID for Open Item 2
-    mii.hbmpItem = exitBitmap; // Set the bitmap for Item 2
-    SetMenuItemInfo(hMenu, ITEM_OPEN_2, FALSE, &mii);
+    mii.wID = SHOW_KEYBOARD_LAYOUT;
+    mii.hbmpItem = keyboardLayoutBitmap; // Set Keyboard Layout bitmap
+    SetMenuItemInfo(hMenu, SHOW_KEYBOARD_LAYOUT, FALSE, &mii);
 
     mii.wID = ITEM_EXIT;  // ID for the Exit item
     mii.hbmpItem = exitBitmap; // Set the bitmap for the Exit item
@@ -114,8 +117,8 @@ LRESULT CALLBACK SystemTrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
                     Shell_NotifyIcon(NIM_MODIFY, &nid); // Modify the tray icon to reflect changes
                     programAutoStartup(isChecked); // Call function for ITEM_RUN_AT_STARTUP
                     break;
-                case ITEM_OPEN_2:
-                    handleOpenItem2(); // Call function for Item 2
+                case SHOW_KEYBOARD_LAYOUT:
+                    showKeyboardLayout(appData.hInstance, appData.nShowCmd); // Function to Pop Up Keyboard Layout
                     break;
                 case ITEM_EXIT:
                     Shell_NotifyIcon(NIM_DELETE, &nid); // Remove the icon from the tray
@@ -146,6 +149,9 @@ void systemTrayInit(HINSTANCE hInstance) {
     // Load bitmaps for checked and unchecked states
     checkedBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_CHECKED), IMAGE_BITMAP, 16, 16, LR_LOADTRANSPARENT);
     uncheckedBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_UNCHECKED), IMAGE_BITMAP, 16, 16, LR_LOADTRANSPARENT);
+    
+    // Load bitmap for SHOW_KEYBOARD_LAYOUT menu item
+    keyboardLayoutBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_KEYBOARD), IMAGE_BITMAP, 16, 16, LR_LOADTRANSPARENT);
 
     // Register window class
     WNDCLASS wc = {0}; // Initialize WNDCLASS structure
@@ -187,4 +193,5 @@ void systemTrayInit(HINSTANCE hInstance) {
     DestroyIcon(defaultIcon); // Destroy current icon
     DestroyIcon(banglaIcon); // Destroy Bangla icon
     DeleteObject(exitBitmap); // Delete exit bitmap
+    DeleteObject(keyboardLayoutBitmap); // Delete keyboard Layout bitmap
 }

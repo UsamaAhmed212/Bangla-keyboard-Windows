@@ -16,15 +16,15 @@ windres rc/resources.rc -o obj/resources.o && windres rc/version.rc -O coff -o o
 
 ### 2. Generated Executable File (.exe)
 ```bash
-gcc gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -mwindows
+gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c src/trayActions/keyboardLayout.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -mwindows
 ```
 OR
 ```bash
-gcc gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -lgdi32 -lcomctl32 -lshell32
+gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c src/trayActions/keyboardLayout.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -lgdi32 -lcomctl32 -lshell32
 ```
 OR
 ```bash
-gcc gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -mwindows -lgdi32 -lcomctl32 -lshell32
+gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c src/trayActions/keyboardLayout.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -mwindows -lgdi32 -lcomctl32 -lshell32
 ```
 
 #### Behavior of Flags
@@ -66,4 +66,15 @@ make build
 OR
 ```bash
 make run
+```
+
+## **Compilation Steps 03**
+
+### Run the following command : => (if you want Monitors changes and automatically recompiles and runs your application when changes are detected.)
+```bash
+watch.bat
+```
+OR
+```bash
+./watch.bat
 ```
