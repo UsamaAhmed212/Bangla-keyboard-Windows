@@ -16,6 +16,10 @@ windres rc/resources.rc -o obj/resources.o && windres rc/version.rc -O coff -o o
 
 ### 2. Generated Executable File (.exe)
 ```bash
+gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c src/trayActions/keyboardLayout.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -lcomctl32 -lshell32 -mwindows -static -static-libgcc
+```
+OR
+```bash
 gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src/trayActions/programAutoStartup.c src/trayActions/keyboardLayout.c obj/resources.o obj/version.res -o "Bangla Keyboard.exe" -lgdi32 -lole32 -mwindows
 ```
 OR
@@ -28,6 +32,10 @@ gcc src/bangla_keyboard.c src/splashScreen.c src/keyboard.c src/systemTray.c src
 ```
 
 #### Behavior of Flags
+
+> **`-static:`** Tells GCC to link libraries statically into the executable whenever possible, reducing the need for separate runtime DLLs.
+
+> **`-static-libgcc:`** Tries to include GCC’s libgcc library inside the program, reducing the need for a separate libgcc DLL/library at runtime.
 
 > **`-mwindows:`** Tells GCC to create a Windows GUI application. This means that the application will not have a console window attached to it when run.
 

@@ -20,7 +20,7 @@ RESOURCES = $(RC_DIR)/resources.rc
 VERSION_RC = $(RC_DIR)/version.rc
 
 # Compiler flags
-CFLAGS = -lgdi32 -lole32 -mwindows
+CFLAGS = -lgdi32 -lole32 -lcomctl32 -lshell32 -mwindows -static -static-libgcc
 
 $(TARGET): $(SRC_FILES) $(OBJ_FILES)
 	$(CC) $(SRC_FILES) $(OBJ_FILES) -o $(TARGET) $(CFLAGS)
